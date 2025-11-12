@@ -1,10 +1,11 @@
 # odin-knight-travails
+
 Project: Knights Travails from The Odin Project's Javascript Course
 
 The final project of the computer science section. In this project we use our knowledge of data structures and algorithms to solve the minimum knight's moves problem. Particularly, I'm using BFS to navigate the chess board as an undirected graph.
 
 The requirements are below:
-    Your task is to build a function knightMoves that shows the shortest possible way to get from one square to another by outputting all squares the knight will stop on along the way.
+Your task is to build a function knightMoves that shows the shortest possible way to get from one square to another by outputting all squares the knight will stop on along the way.
 
     You can think of the board as having 2-dimensional coordinates. Calling your function would therefore look like:
 
