@@ -29,7 +29,7 @@ function defineMoves() {
 }
 
 function toString([x, y]) {
-    return `${x},${y}`
+  return `${x},${y}`;
 }
 
 function knightMoves(start, target) {
@@ -37,49 +37,65 @@ function knightMoves(start, target) {
   if (!onBoard(start)) return;
   if (!onBoard(target)) return;
   if (start[0] === target[0] && start[1] === target[1]) {
-    console.log("equals")
-    return start
+    console.log('equals');
+    return start;
   }
 
   let queue = []; // use queue to keep track of new positions
-  queue.push(start) // add start
+  queue.push(start); // add start
 
   let visited = new Set(); // use Set for visited positions
-  visited.add(start) // add start coordinates
-  
+  visited.add(toString(start)); // add start coordinates
+
   // use object to track previous
   let prev = {};
-  start = toString(start)
-  prev[start] = null
-  
-//   console.log(prev)
+  prev[toString(start)] = null;
+
   while (queue.length > 0) {
     // current position is the first of the queue
-    let current = queue[0]
-    queue.shift()
-    // if thats the last one, break -> thats the target
-    // if (queue.length === 0) {
-    //     break;
-    // }
+    let current = queue.shift();
 
-    for (move of defineMoves()) {
-        let nextMove = [(Number(current[0]) + Number(move[0])), (Number(current[1]) + Number(move[1]))]
-        if (onBoard(nextMove) && !visited.has(nextMove)) {
-            queue.push(nextMove)
-            visited.add(nextMove)
-            prev[nextMove] = current
-            console.log("im here")
-        }
+    // if the current is the target, break!
+    if (current[0] === target[0] && current[1] === target[1]) {
+      console.log('do we get here');
+      break;
     }
-
-    // console.log(queue)
-    // console.log(visited)
-    // console.log(prev)
-
-    break;
+    // loop through possible moves
+    for (let move of defineMoves()) {
+      let nextMove = [
+        Number(current[0]) + Number(move[0]),
+        Number(current[1]) + Number(move[1]),
+      ];
+      let nextKey = toString(nextMove);
+      // if new move is possible and has not been visited yet
+      if (onBoard(nextMove) && !visited.has(nextKey)) {
+        queue.push(nextMove);
+        visited.add(nextKey);
+        prev[nextKey] = toString(current);
+      }
+    }
   }
 
-  return; // list of moves from start to target
+  // reverse the path
+  let path = [];
+  let currentKey = toString(target);
+  // keep assigning currentkey : value until currentkey is null
+  while (currentKey !== null) {
+    path.push(currentKey);
+    currentKey = prev[currentKey];
+  }
+
+  let reversedPath = [];
+  for (let item of path) {
+    item = new Array(item);
+    reversedPath.unshift(item);
+  }
+
+  console.log(
+    `You made it in ${reversedPath.length - 1} moves! Here's your path:`
+  );
+  console.log(reversedPath);
+  return;
 }
 
-knightMoves([0, 0], [5, 0]);
+knightMoves([3, 3], [4, 3]);
